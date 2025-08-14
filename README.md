@@ -1,14 +1,14 @@
 SIPE 동아리의 멘토링을 받으며 수행하는 과제.
 
 # 파일 구성도
-- analysis.py: 전체 분석 흐름을 관리, 필요한 모듈들을 호출하는 메인 파일
-- config.py: 등급 기준(5등급), 학년, 과목 선택 옵션 등을 설정하는 파일
-- data_loader.py: student_scores.csv 파일 로드하고 전처리하는 함수 정의
-- grade_calculator.py: 5등급 기준에 따라 등급을 계산하는 함수 정의
-- rank_and_grade.py: 학생 석차 및 등급을 계산하고 표로 출력하는 함수 정의
-- report.md: 분석 결과 요약 및 시각화 결과
-- student_id_lookup.py: 학년과 과목 선택 시 해당 학생들의 석차/등급 정보를 조회하는 함수 정의
-- student_source.csv: 학생 정보 및 성적 데이터
+- ```analysis.py```: 전체 분석 흐름을 관리, 필요한 모듈들을 호출하는 메인 파일
+- ```config.py```: 등급 기준(5등급), 학년, 과목 선택 옵션 등을 설정하는 파일
+- ```data_loader.py```: student_scores.csv 파일 로드하고 전처리하는 함수 정의
+- ```grade_calculator.py```: 5등급 기준에 따라 등급을 계산하는 함수 정의
+- ```rank_and_grade.py```: 학생 석차 및 등급을 계산하고 표로 출력하는 함수 정의
+- ```report.md```: 분석 결과 요약 및 시각화 결과
+- ```student_id_lookup.py```: 학년과 과목 선택 시 해당 학생들의 석차/등급 정보를 조회하는 함수 정의
+- ```student_source.csv```: 학생 정보 및 성적 데이터
 
 ## 라이브러리 설치 터미널 명령어:
 ```pip install pandas numpy matplotlib seaborn scikit-learn```
