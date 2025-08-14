@@ -54,6 +54,43 @@ def assign_grades(df):
     df_copy['등급'] = df_sorted['등급'].values
     return df_copy
 
+def assign_subject_grades(df, score_column):
+    """
+    특정 과목에 대한 등급을 계산합니다.
+
+    Args:
+        df (pd.DataFrame): 학생 성적 데이터가 담긴 DataFrame.
+        score_column (str): 등급을 계산할 과목 컬럼명 (예: '수학', '영어', '과학')
+
+    Returns:
+        pd.DataFrame: 등급(grade) 컬럼이 추가된 DataFrame.
+    """
+    # DataFrame을 명시적으로 복사
+    df_copy = df.copy()
+    
+    # 비율 기반 등급 산정
+    N = len(df_copy)
+    df_sorted = df_copy.sort_values(by=score_column, ascending=False).reset_index(drop=True)
+    grade_boundaries = [0.10, 0.24, 0.32, 0.24, 0.10]
+    grade_counts = [int(N * p) for p in grade_boundaries]
+    
+    # 누적 등급 리스트 생성
+    grades = []
+    for i, count in enumerate(grade_counts, start=1):
+        grades += [i] * count
+    
+    # 등급 수가 부족하거나 넘칠 경우 처리
+    if len(grades) < N:
+        grades += [5] * (N - len(grades))
+    elif len(grades) > N:
+        grades = grades[:N]
+    
+    df_sorted['등급'] = grades
+
+    # 원래 인덱스 순서로 복원
+    df_copy['등급'] = df_sorted['등급'].values
+    return df_copy
+
 
 if __name__ == '__main__':
     # student_scores.csv 파일을 읽어옵니다.
