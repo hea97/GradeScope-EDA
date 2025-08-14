@@ -1,0 +1,3 @@
+GRADE_SYSTEM = "5"
+DEFAULT_GRADE = "1"
+DEFAULT_SUBJECTS = ["수학", "영어", "과학"]
