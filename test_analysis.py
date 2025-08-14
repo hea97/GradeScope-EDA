@@ -14,62 +14,6 @@ from config import GRADE_SYSTEM, AVAILABLE_GRADE_YEARS, DEFAULT_SUBJECTS
 plt.rcParams['font.family'] = ['Malgun Gothic', 'NanumGothic', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-def interactive_student_lookup(df):
-    """사용자가 학생 ID를 입력하여 조회할 수 있는 인터랙티브 기능"""
-    print("\n" + "="*50)
-    print("학생 ID 조회 기능")
-    print("="*50)
-    
-    while True:
-        print(f"\n사용 가능한 과목: {DEFAULT_SUBJECTS}")
-        print(f"사용 가능한 학년: {AVAILABLE_GRADE_YEARS}")
-        
-        # 사용자 입력 받기
-        student_id = input("\n조회할 학생 ID를 입력하세요 (종료하려면 'q' 입력): ").strip()
-        
-        if student_id.lower() == 'q':
-            print("학생 조회를 종료합니다.")
-            break
-            
-        if student_id not in df['학생ID'].values:
-            print(f"'{student_id}' 학생을 찾을 수 없습니다. 다시 시도해주세요.")
-            continue
-            
-        # 과목 선택
-        print(f"\n{student_id} 학생의 조회할 과목을 선택하세요:")
-        for i, subject in enumerate(DEFAULT_SUBJECTS, 1):
-            print(f"{i}. {subject}")
-        
-        try:
-            subject_choice = int(input("과목 번호를 입력하세요: ")) - 1
-            if 0 <= subject_choice < len(DEFAULT_SUBJECTS):
-                subject = DEFAULT_SUBJECTS[subject_choice]
-            else:
-                print("잘못된 선택입니다. 수학으로 기본 설정합니다.")
-                subject = "수학"
-        except ValueError:
-            print("잘못된 입력입니다. 수학으로 기본 설정합니다.")
-            subject = "수학"
-        
-        # 학년 정보 가져오기
-        student_data = df[df['학생ID'] == student_id]
-        if not student_data.empty:
-            year = student_data['학년'].iloc[0]
-            
-            # 학생 정보 조회
-            try:
-                student_info = lookup_student_info(df, year, subject, student_id)
-                if not student_info.empty:
-                    print(f"\n{student_id} 학생 정보 ({year}학년 {subject}):")
-                    print("-" * 40)
-                    print(student_info.to_string(index=False))
-                else:
-                    print(f"\n{student_id} 학생의 {subject} 정보를 찾을 수 없습니다.")
-            except Exception as e:
-                print(f"\n학생 조회 중 오류: {e}")
-        else:
-            print(f"{student_id} 학생의 학년 정보를 찾을 수 없습니다.")
-
 def main():
     df = load_data('student_scores.csv')
 
@@ -208,8 +152,25 @@ def main():
     print("3. 상위 10명과 하위 10명의 성적 차이가 매우 크며, 교육 격차가 존재함을 확인할 수 있습니다.")
     print("4. 3학년이 1, 2학년보다 과학 과목에서 평균적으로 높은 성적을 보이고 있습니다.")
 
-    # 11. 인터랙티브 학생 조회 기능
-    interactive_student_lookup(df)
+    # 11. 학생 ID 조회 기능 테스트
+    print("\n" + "="*60)
+    print("11. 학생 ID 조회 기능 테스트")
+    print("="*60)
+    
+    # 실제 데이터에서 첫 번째 학생 ID를 가져옴
+    if not df.empty:
+        sample_student_id = df['학생ID'].iloc[0]
+        sample_year = df['학년'].iloc[0]
+        try:
+            student_info = lookup_student_info(df, sample_year, "수학", sample_student_id)
+            if not student_info.empty:
+                print(f"\n{sample_student_id} 학생 정보 ({sample_year}학년 수학):")
+                print("-" * 40)
+                print(student_info.to_string(index=False))
+            else:
+                print(f"\n{sample_student_id} 학생을 찾을 수 없습니다.")
+        except Exception as e:
+            print(f"\n학생 조회 중 오류: {e}")
 
 if __name__ == "__main__":
     main()
